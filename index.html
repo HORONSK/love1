@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>письмо · для тебя</title>
+    <!-- нежные шрифты с засечками для романтического настроения -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* сброс и база */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        background: linear-gradient(145deg, #fbe9f0 0%, #f8dae5 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        font-family: "EB Garamond", "Times New Roman", serif;
+        color: #3e2c2f;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* лёгкие романтические «сердечные» пятна на фоне */
+      body::before {
+        content: "❤️";
+        position: absolute;
+        top: 5%;
+        left: 3%;
+        font-size: 8rem;
+        opacity: 0.06;
+        transform: rotate(-15deg);
+        pointer-events: none;
+        color: #c95b7a;
+        filter: blur(2px);
+      }
+
+      body::after {
+        content: "❤️";
+        position: absolute;
+        bottom: 3%;
+        right: 2%;
+        font-size: 12rem;
+        opacity: 0.05;
+        transform: rotate(20deg);
+        pointer-events: none;
+        color: #b34b6a;
+        filter: blur(3px);
+      }
+
+      /* контейнер письма — как развернутый лист с тёплой тенью */
+      .letter {
+        max-width: 820px;
+        width: 100%;
+        background: rgba(255, 250, 245, 0.92);
+        backdrop-filter: blur(4px);
+        padding: 3rem 2.8rem;
+        border-radius: 60px 20px 60px 20px;
+        box-shadow:
+          0 25px 50px -12px rgba(140, 70, 90, 0.25),
+          0 0 0 1px rgba(255, 220, 230, 0.6) inset;
+        border: 1px solid #f3d2dd;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* декоративный верхний уголок — маленькое сердечко */
+      .letter::before {
+        content: "❤️";
+        position: absolute;
+        top: -18px;
+        left: 40px;
+        font-size: 2.4rem;
+        transform: rotate(-10deg);
+        filter: drop-shadow(0 4px 6px rgba(200, 90, 120, 0.2));
+      }
+
+      /* тонкая линия сверху для элегантности */
+      .letter::after {
+        content: "";
+        position: absolute;
+        top: 16px;
+        left: 40px;
+        right: 40px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #e7b7c6,
+          #d99bb0,
+          #e7b7c6,
+          transparent
+        );
+        border-radius: 100%;
+      }
+
+      /* стиль для нумерации и текста */
+      .message {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+      }
+
+      .line {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.1rem;
+        font-size: 1.2rem;
+        line-height: 1.65;
+        transition: transform 0.2s ease;
+      }
+
+      .line:hover {
+        transform: translateX(4px);
+      }
+
+      /* изящные номера — как маленькие сердечки или просто цифры в кружке */
+      .num {
+        flex-shrink: 0;
+        width: 2.1rem;
+        height: 2.1rem;
+        background: #f8e1e9;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #a1455e;
+        box-shadow: 0 2px 6px rgba(190, 120, 140, 0.15);
+        border: 1px solid #f0c2d0;
+        transition: background 0.2s;
+        font-family: "Cormorant Garamond", serif;
+        margin-top: 0.1rem;
+      }
+
+      .line:hover .num {
+        background: #f3cedb;
+        color: #7e3349;
+        box-shadow: 0 4px 8px rgba(180, 90, 120, 0.2);
+      }
+
+      /* сам текст */
+      .text {
+        flex: 1;
+        font-family: "EB Garamond", "Georgia", serif;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        color: #3c2b2f;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+      }
+
+      /* выделение для «p.s.» — мягкий курсив */
+      .ps-line .text {
+        font-style: italic;
+        color: #6a4050;
+        border-left: 2px solid #ecc0d0;
+        padding-left: 1rem;
+        margin-left: -0.2rem;
+        font-size: 1.15rem;
+      }
+
+      /* немного разные оттенки для некоторых строк — для лёгкой игры */
+      .line:nth-child(4n + 2) .num {
+        background: #fae3ea;
+      }
+
+      /* адаптив */
+      @media (max-width: 600px) {
+        body {
+          padding: 1rem 0.8rem;
+        }
+
+        .letter {
+          padding: 2rem 1.2rem;
+          border-radius: 40px 12px 40px 12px;
+        }
+
+        .letter::before {
+          left: 24px;
+          font-size: 2rem;
+          top: -14px;
+        }
+
+        .letter::after {
+          left: 24px;
+          right: 24px;
+          top: 12px;
+        }
+
+        .line {
+          gap: 0.8rem;
+          font-size: 1rem;
+          line-height: 1.6;
+        }
+
+        .num {
+          width: 1.8rem;
+          height: 1.8rem;
+          font-size: 0.85rem;
+        }
+
+        .ps-line .text {
+          font-size: 1rem;
+          padding-left: 0.8rem;
+        }
+
+        body::before,
+        body::after {
+          display: none;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .line {
+          font-size: 0.95rem;
+          gap: 0.6rem;
+        }
+
+        .num {
+          width: 1.6rem;
+          height: 1.6rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      /* нежное появление строк при загрузке */
+      .line {
+        animation: softAppear 0.6s ease backwards;
+      }
+
+      @keyframes softAppear {
+        0% {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* небольшие задержки для каждой строки, чтобы было плавнее */
+      .line:nth-child(1) {
+        animation-delay: 0.03s;
+      }
+      .line:nth-child(2) {
+        animation-delay: 0.06s;
+      }
+      .line:nth-child(3) {
+        animation-delay: 0.09s;
+      }
+      .line:nth-child(4) {
+        animation-delay: 0.12s;
+      }
+      .line:nth-child(5) {
+        animation-delay: 0.15s;
+      }
+      .line:nth-child(6) {
+        animation-delay: 0.18s;
+      }
+      .line:nth-child(7) {
+        animation-delay: 0.21s;
+      }
+      .line:nth-child(8) {
+        animation-delay: 0.24s;
+      }
+      .line:nth-child(9) {
+        animation-delay: 0.27s;
+      }
+      .line:nth-child(10) {
+        animation-delay: 0.3s;
+      }
+      .line:nth-child(11) {
+        animation-delay: 0.33s;
+      }
+      .line:nth-child(12) {
+        animation-delay: 0.36s;
+      }
+      .line:nth-child(13) {
+        animation-delay: 0.39s;
+      }
+      .line:nth-child(14) {
+        animation-delay: 0.42s;
+      }
+      .line:nth-child(15) {
+        animation-delay: 0.45s;
+      }
+      .line:nth-child(16) {
+        animation-delay: 0.48s;
+      }
+      .line:nth-child(17) {
+        animation-delay: 0.51s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="letter">
+      <div class="message">
+        <!-- строка 1 -->
+        <div class="line">
+          <span class="num">1</span>
+          <span class="text"
+            >Согласен, была плохая идея тебя будить, извини.</span
+          >
+        </div>
+        <!-- строка 2 -->
+        <div class="line">
+          <span class="num">2</span>
+          <span class="text"
+            >Я даже не помню, чтоб просыпался, меня надо прям будить, чтоб я
+            вышел в сознание из сна.</span
+          >
+        </div>
+        <!-- строка 3 -->
+        <div class="line">
+          <span class="num">3</span>
+          <span class="text"
+            >Про окно — это мой косяк, я помню, как проснулся, встал и открыл,
+            но не помню, чтоб в тот момент хоть о чём-то думал.</span
+          >
+        </div>
+        <!-- строка 4 -->
+        <div class="line">
+          <span class="num">4</span>
+          <span class="text"
+            >Мы оба понимаем, что я хотел бы, чтобы ты закрыла окно, если
+            чувствуешь, что холодно. И да, ты его не открывала, я всё понимаю,
+            но да…</span
+          >
+        </div>
+        <!-- строка 5 -->
+        <div class="line">
+          <span class="num">5</span>
+          <span class="text"
+            >Я пытаюсь тебя поддерживать, если ты что-то делаешь для себя, и я
+            всегда рад, если ты делаешь что-то для себя; если это не так, по
+            твоему мнению, значит, это мой косяк и не хватает поддержки или
+            ссоры всё перекрывают, не знаю.</span
+          >
+        </div>
+        <!-- строка 6 -->
+        <div class="line">
+          <span class="num">6</span>
+          <span class="text">Я не хороший, нет хороших и плохих.</span>
+        </div>
+        <!-- строка 7 -->
+        <div class="line">
+          <span class="num">7</span>
+          <span class="text"
+            >Тут я не понимаю, я правильно понял или нет, потому что тут про
+            song of the forest или про что-то ещё, но за последнее время, как
+            понимаю, про song of the forest.</span
+          >
+        </div>
+        <!-- строка 8 -->
+        <div class="line">
+          <span class="num">8</span>
+          <span class="text"
+            >Милана, если у тебя в данный момент нет желания делать домашние
+            дела, давай их буду делать я, а ты займись тем, что поможет тебе
+            набраться сил, может, например, поиграй или почитай; я постараюсь
+            делать дела по дому, только с едой тяжело будет, ты не любишь то,
+            что я готовлю).</span
+          >
+        </div>
+        <!-- строка 9 -->
+        <div class="line">
+          <span class="num">9</span>
+          <span class="text"
+            >Что значит тяжело для меня? Я готов принимать тот факт, что в
+            данный момент у тебя некий депрешонс; если я пойму, что больше так
+            не могу, я тебе сообщу. Я бы расходился, честно говоря, не хотел, но
+            если ты думаешь, что тебе будет лучше, то я буду не против.</span
+          >
+        </div>
+        <!-- строка 10 -->
+        <div class="line">
+          <span class="num">10</span>
+          <span class="text"
+            >Ты думаешь, что наши мечты невозможно соединить? Почему мы не можем
+            завести семью и при этом я буду работать и делать какую-то карьеру,
+            хз пока какую, честно говоря.</span
+          >
+        </div>
+        <!-- строка 11 -->
+        <div class="line">
+          <span class="num">11</span>
+          <span class="text"
+            >Как я и говорил выше, если у тебя нет сил что-то делать сейчас, я
+            готов дать тебе время прийти в себя, чтоб ты абстрагировалась от
+            домашних дел.</span
+          >
+        </div>
+        <!-- строка 12 первая (по тексту 12) -->
+        <div class="line">
+          <span class="num">12</span>
+          <span class="text"
+            >Почему ты думаешь, мы будем жалеть о будущем, по твоему
+            мнению?</span
+          >
+        </div>
+        <!-- строка 12 А (вторая 12) — сохраняем нумерацию как в оригинале -->
+        <div class="line">
+          <span class="num">12</span>
+          <span class="text">А чья помощь тебе нужна?</span>
+        </div>
+        <!-- строка без номера — «Другого человека...» -->
+        <div class="line">
+          <span class="num">•</span>
+          <span class="text"
+            >Другого человека, например, я честно не понимаю, какой тут
+            ответ.</span
+          >
+        </div>
+        <!-- P.S. — особая строка -->
+        <div class="line ps-line">
+          <span class="num">❤</span>
+          <span class="text"
+            >P.s. Я не знаю, честно, хочешь ли ты со мной говорить, думаешь ли
+            ты сейчас об этом, но если ты будешь готова поговорить, знай: я не
+            против, если решишь просто написать, я тоже буду.</span
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
